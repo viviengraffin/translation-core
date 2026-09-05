@@ -1,6 +1,6 @@
 {
   "name": "@viviengraffin/translation-core",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "imports": {
     "@std/assert": "jsr:@std/assert@^1.0.19",
@@ -18,8 +18,8 @@
       ]
     }
   },
-  "publish":{
-    "include":[
+  "publish": {
+    "include": [
       "src/",
       "deno.json",
       "LICENSE"

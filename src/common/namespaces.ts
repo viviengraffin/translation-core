@@ -1,6 +1,10 @@
-import { DEFAULT_FALLBACK_LOCALE } from "@/common/const.ts";
+import {
+  DEFAULT_FALLBACK_LOCALE,
+  DEFAULT_LOCALE_FORMAT,
+} from "@/common/const.ts";
 import type Locale from "@/common/locale.ts";
 import type {
+  LocaleFormat,
   TranslationObject,
   TranslationObjectByLocale,
 } from "@/common/types.ts";
@@ -131,6 +135,7 @@ export default class TranslationNamespaces<T> {
    *
    * @param locales - Locales for which translations should be resolved.
    * @param fallbackLocale - Locale used as the fallback locale.
+   * @param localeFormat - Format used for locale names.
    * @returns A promise resolving to the merged translation objects.
    *
    * @throws {Error} If a selected namespace does not exist.
@@ -140,21 +145,22 @@ export default class TranslationNamespaces<T> {
   async resolve(
     locales: Locale[],
     fallbackLocale: string = DEFAULT_FALLBACK_LOCALE,
+    localeFormat: LocaleFormat = DEFAULT_LOCALE_FORMAT,
   ): Promise<TranslationObject<T>[]> {
     const res = await Promise.all(
       this.selectedNamespaces.map(async (namespace) => {
+        const namespaceFunction = this.namespaces[namespace];
+
+        if (namespaceFunction === undefined) {
+          throw new Error(
+            `Namespace ${String(namespace)} doesn't exists.`,
+          );
+        }
+
+        const namespaceContent = await namespaceFunction();
+
         return await Promise.all(locales.map(async (locale) => {
-          const namespaceFunction = this.namespaces[namespace];
-
-          if (namespaceFunction === undefined) {
-            throw new Error(
-              `Namespace ${String(namespace)} doesn't exists.`,
-            );
-          }
-
-          const namespaceContent = await namespaceFunction();
-
-          if (!(Object.hasOwn(namespaceContent, locale.dash))) {
+          if (!(Object.hasOwn(namespaceContent, locale[localeFormat]))) {
             if (locale.dash === fallbackLocale) {
               throw new Error(
                 `The fallback locale ${fallbackLocale} is not defined in the namespace ${
@@ -166,7 +172,7 @@ export default class TranslationNamespaces<T> {
             return null;
           }
 
-          return await namespaceContent[locale.dash]();
+          return await namespaceContent[locale[localeFormat]]();
         }));
       }),
     );

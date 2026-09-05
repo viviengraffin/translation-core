@@ -41,7 +41,11 @@ export async function getTranslationObjectByLocales<T>(
   localeFormat: LocaleFormat,
 ): Promise<GetTranslationObjectByLocalesReturns<T>> {
   if (translationByLocale instanceof TranslationNamespaces) {
-    return await translationByLocale.resolve(locales, fallbackLocale);
+    return await translationByLocale.resolve(
+      locales,
+      fallbackLocale,
+      localeFormat,
+    );
   }
 
   const filteredLocales = locales.filter((locale) => {
