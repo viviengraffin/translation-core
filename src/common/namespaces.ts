@@ -161,7 +161,7 @@ export default class TranslationNamespaces<T> {
 
         return await Promise.all(locales.map(async (locale) => {
           if (!(Object.hasOwn(namespaceContent, locale[localeFormat]))) {
-            if (locale.dash === fallbackLocale) {
+            if (locale[localeFormat] === fallbackLocale) {
               throw new Error(
                 `The fallback locale ${fallbackLocale} is not defined in the namespace ${
                   String(namespace)
