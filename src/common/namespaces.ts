@@ -198,8 +198,6 @@ function fusion<T>(
 ): TranslationObject<T>[] {
   if (!result[0]) return [];
 
-  //const map: Map<number, TranslationObject<T>> = new Map();
-
   const res = new Array(result[0].length);
 
   for (const namespace of result) {
@@ -220,12 +218,5 @@ function fusion<T>(
     }
   }
 
-  return res;
-  /*
-  return [...map.entries()]
-    .sort((a, b) => {
-      return a[0] - b[0];
-    })
-    .map((item) => item[1]);
-  */
+  return res.filter((item) => item !== undefined);
 }

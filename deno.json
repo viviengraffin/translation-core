@@ -1,6 +1,6 @@
 {
   "name": "@viviengraffin/translation-core",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "imports": {
     "@std/assert": "jsr:@std/assert@^1.0.19",
@@ -14,7 +14,8 @@
   "lint": {
     "rules": {
       "exclude": [
-        "no-explicit-any"
+        "no-explicit-any",
+        "no-slow-types"
       ]
     }
   },
