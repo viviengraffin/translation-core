@@ -31,6 +31,7 @@ export abstract class TranslationBase<ReturnType> {
    *
    * @param builder - Builder used to load and update translations.
    * @param locales - Translation objects ordered by locale priority.
+   * @param localesNames - Locale names.
    * @param separator - Separator used to split translation keys.
    *
    * @default separator DEFAULT_SEPARATOR
@@ -38,6 +39,7 @@ export abstract class TranslationBase<ReturnType> {
   constructor(
     protected builder: TranslationBuilder<TranslationBase<ReturnType>>,
     protected locales: TranslationObject<ReturnType>[],
+    protected localesNames: string[],
     protected readonly separator: string = DEFAULT_SEPARATOR,
   ) {}
 
@@ -124,11 +126,12 @@ export abstract class TranslationBase<ReturnType> {
   async setTranslations(
     translations: TranslationObjectByLocale<ReturnType>,
   ): Promise<this> {
-    const loadedTranslations = await this.builder
+    const [names, locales] = await this.builder
       .withTranslations(translations)
       .loadTranslations();
 
-    this.locales = loadedTranslations;
+    this.locales = locales;
+    this.localesNames = names;
 
     return this;
   }
@@ -143,11 +146,21 @@ export abstract class TranslationBase<ReturnType> {
   async setLocale(locale?: string): Promise<this> {
     this.builder.withLocale(locale);
 
-    const locales = await this.builder.loadTranslations();
+    const [names, locales] = await this.builder.loadTranslations();
 
     this.locales = locales;
+    this.localesNames = names;
 
     return this;
+  }
+
+  /**
+   * Get the selected locale
+   *
+   * @returns {string} Selected locale
+   */
+  getLocale(): string {
+    return this.localesNames[0];
   }
 
   /**
@@ -158,9 +171,12 @@ export abstract class TranslationBase<ReturnType> {
    * @returns This instance after the translations have been reloaded.
    */
   async addNamespaces(...namespaces: string[]): Promise<this> {
-    this.locales = await this.builder
+    const [names, locales] = await this.builder
       .withAddNamespaces(...namespaces)
       .loadTranslations();
+
+    this.locales = locales;
+    this.localesNames = names;
 
     return this;
   }
@@ -173,9 +189,12 @@ export abstract class TranslationBase<ReturnType> {
    * @returns This instance after the translations have been reloaded.
    */
   async removeNamespaces(...namespaces: string[]): Promise<this> {
-    this.locales = await this.builder
+    const [names, locales] = await this.builder
       .withRemoveNamespaces(...namespaces)
       .loadTranslations();
+
+    this.locales = locales;
+    this.localesNames = names;
 
     return this;
   }
@@ -188,9 +207,12 @@ export abstract class TranslationBase<ReturnType> {
    * @returns This instance after the translations have been reloaded.
    */
   async setNamespaces(namespaces: string[]): Promise<this> {
-    this.locales = await this.builder
+    const [names, locales] = await this.builder
       .withSetNamespaces(namespaces)
       .loadTranslations();
+
+    this.locales = locales;
+    this.localesNames = names;
 
     return this;
   }

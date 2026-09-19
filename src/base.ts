@@ -21,4 +21,4 @@ export type * from "@/common/types.ts";
 
 export * from "@/common/utils.ts";
 
-export { createLoader } from "@/environments/custom/main.ts";
+export { Environment as EnvironmentBase } from "@/common/environment.ts";

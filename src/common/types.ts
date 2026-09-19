@@ -4,7 +4,7 @@ import type { TranslationBase } from "@/common/translationClass.ts";
 /**
  * Maps each locale to a function that loads its translation object.
  *
- * The loader function can return the translation object either synchronously
+ * The load method can return the translation object either synchronously
  * or asynchronously.
  *
  * @typeParam T - Type of the translated value.
@@ -111,20 +111,6 @@ export type GetTranslationsLocalesOptions = {
 export type PluralVariants<T> =
   & Partial<Record<Exclude<Intl.LDMLPluralRule, "other">, T>>
   & { other: T };
-
-/**
- * Loads translation objects for the requested locales.
- *
- * @typeParam T - Type of the translated value.
- *
- * @param translations - Translation container to load.
- * @param options - Locale loading options.
- * @returns A promise resolving to the loaded translation objects.
- */
-export type Loader<T> = (
-  translations: TranslationObjectByLocale<T> | TranslationNamespaces<T>,
-  options: GetTranslationsLocalesOptions,
-) => Promise<TranslationObject<T>[]>;
 
 /**
  * Represents a supported translation container.

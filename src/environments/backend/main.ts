@@ -1,3 +1,3 @@
 export * from "@/base.ts";
 
-export { loader } from "@/environments/backend/loader.ts";
+export { Environment } from "@/environments/backend/environment.ts";

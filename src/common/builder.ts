@@ -1,13 +1,18 @@
 import type { TranslationBase } from "@/common/translationClass.ts";
 import type {
   Constructor,
-  GetTranslationObjectByLocalesReturns,
-  Loader,
+  LocaleFormat,
+  TranslationObject,
   TranslationObjectByLocale,
   TranslationReturnType,
 } from "@/common/types.ts";
-import { DEFAULT_FALLBACK_LOCALE, DEFAULT_SEPARATOR } from "@/common/const.ts";
+import {
+  DEFAULT_FALLBACK_LOCALE,
+  DEFAULT_LOCALE_FORMAT,
+  DEFAULT_SEPARATOR,
+} from "@/common/const.ts";
 import TranslationNamespaces from "@/common/namespaces.ts";
+import type { Environment } from "@/common/environment.ts";
 
 /**
  * Builds and configures translation class instances.
@@ -32,13 +37,14 @@ import TranslationNamespaces from "@/common/namespaces.ts";
 export default class TranslationBuilder<
   T extends TranslationBase<unknown>,
 > {
-  protected _loader?: Loader<TranslationReturnType<T>>;
+  protected _environment?: Environment;
   protected _translations?:
     | TranslationObjectByLocale<TranslationReturnType<T>>
     | TranslationNamespaces<TranslationReturnType<T>>;
   protected _locale?: string;
   protected _fallbackLocale: string = DEFAULT_FALLBACK_LOCALE;
   protected _separator: string = DEFAULT_SEPARATOR;
+  protected _localeFormat: LocaleFormat = DEFAULT_LOCALE_FORMAT;
 
   /**
    * Creates a translation builder for the given translation class.
@@ -49,13 +55,13 @@ export default class TranslationBuilder<
   constructor(protected translationClass: Constructor<T>) {}
 
   /**
-   * Sets the translation loader.
+   * Sets the environment.
    *
-   * @param loader - Function responsible for loading translations.
+   * @param environment - environment class responsible for loading translations.
    * @returns This builder instance.
    */
-  withLoader(loader: Loader<TranslationReturnType<T>>): this {
-    this._loader = loader;
+  withEnvironment(environment: Constructor<Environment>): this {
+    this._environment = new environment();
     return this;
   }
 
@@ -116,6 +122,16 @@ export default class TranslationBuilder<
    */
   withSeparator(separator: string): this {
     this._separator = separator;
+    return this;
+  }
+
+  /**
+   * Set the locale format used in translations objects.
+   *
+   * @param localeFormat LocaleFormat to use
+   */
+  withLocaleFormat(localeFormat: LocaleFormat): this {
+    this._localeFormat = localeFormat;
     return this;
   }
 
@@ -202,18 +218,21 @@ export default class TranslationBuilder<
    * @throws {Error} If no loader or translations have been configured.
    */
   async build(): Promise<T> {
-    if (this._loader === undefined || this._translations === undefined) {
+    if (this._environment === undefined || this._translations === undefined) {
       throw new Error("loader or translations is not defined in build method");
     }
 
-    const translations = await this._loader(this._translations, {
+    const translations = await this._environment.load({
+      translations: this._translations,
       locale: this._locale,
       fallbackLocale: this._fallbackLocale,
+      localeFormat: this._localeFormat,
     });
 
     return new this.translationClass(
       this,
-      translations,
+      translations[1],
+      translations[0],
       this._separator,
     );
   }
@@ -225,11 +244,13 @@ export default class TranslationBuilder<
    * @returns A promise resolving to the loaded translation objects.
    */
   async loadTranslations(): Promise<
-    GetTranslationObjectByLocalesReturns<TranslationReturnType<T>>
+    [string[], TranslationObject<TranslationReturnType<T>>[]]
   > {
-    const translations = await this._loader!(this._translations!, {
+    const translations = await this._environment!.load({
+      translations: this._translations!,
       locale: this._locale,
       fallbackLocale: this._fallbackLocale,
+      localeFormat: this._localeFormat,
     });
 
     return translations;

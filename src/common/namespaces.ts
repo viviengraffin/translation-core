@@ -146,7 +146,9 @@ export default class TranslationNamespaces<T> {
     locales: Locale[],
     fallbackLocale: string = DEFAULT_FALLBACK_LOCALE,
     localeFormat: LocaleFormat = DEFAULT_LOCALE_FORMAT,
-  ): Promise<TranslationObject<T>[]> {
+  ): Promise<[string[], TranslationObject<T>[]]> {
+    const filteredLocales: string[] = [];
+
     const res = await Promise.all(
       this.selectedNamespaces.map(async (namespace) => {
         const namespaceFunction = this.namespaces[namespace];
@@ -172,12 +174,14 @@ export default class TranslationNamespaces<T> {
             return null;
           }
 
+          filteredLocales.push(locale[localeFormat]);
+
           return await namespaceContent[locale[localeFormat]]();
         }));
       }),
     );
 
-    return fusion(res);
+    return [[...new Set(filteredLocales)], fusion(res)];
   }
 
   /**
