@@ -18,7 +18,7 @@ import type { Environment } from "@/common/environment.ts";
  * Builds and configures translation class instances.
  *
  * The builder uses a fluent API to configure the translation class,
- * translation loader, translations, locale, fallback locale and key
+ * environment, translations, locale, fallback locale and key
  * separator before creating a translation instance.
  *
  * @typeParam T - Translation class to instantiate.
@@ -26,7 +26,7 @@ import type { Environment } from "@/common/environment.ts";
  * @example
  * ```ts
  * const builder = new TranslationBuilder(TranslationReact)
- *   .withLoader(loader)
+ *   .withEnvironment(Environment)
  *   .withTranslations(translations)
  *   .withLocale("fr")
  *   .withFallbackLocale("en");
@@ -210,16 +210,16 @@ export default class TranslationBuilder<
   /**
    * Builds and returns the configured translation class instance.
    *
-   * The configured loader is used to load the translations before the
+   * The configured environment is used to load the translations before the
    * translation class is instantiated.
    *
    * @returns A promise resolving to the configured translation instance.
    *
-   * @throws {Error} If no loader or translations have been configured.
+   * @throws {Error} If no environment or translations have been configured.
    */
   async build(): Promise<T> {
     if (this._environment === undefined || this._translations === undefined) {
-      throw new Error("loader or translations is not defined in build method");
+      throw new Error("environment or translations is not defined in build method");
     }
 
     const translations = await this._environment.load({
