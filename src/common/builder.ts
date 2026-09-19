@@ -219,7 +219,9 @@ export default class TranslationBuilder<
    */
   async build(): Promise<T> {
     if (this._environment === undefined || this._translations === undefined) {
-      throw new Error("environment or translations is not defined in build method");
+      throw new Error(
+        "environment or translations is not defined in build method",
+      );
     }
 
     const translations = await this._environment.load({
