@@ -15,7 +15,7 @@ export {
 
 export { TranslationBase } from "@/common/translationClass.ts";
 
-export { DEFAULT_FALLBACK_LOCALE, DEFAULT_SEPARATOR } from "@/common/const.ts";
+export { DEFAULT_FALLBACK_LOCALE, DEFAULT_SEPARATOR, DEFAULT_LOCALE_FORMAT } from "@/common/const.ts";
 
 export type * from "@/common/types.ts";
 
