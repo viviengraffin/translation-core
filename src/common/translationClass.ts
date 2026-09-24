@@ -217,6 +217,16 @@ export abstract class TranslationBase<ReturnType> {
     return this;
   }
 
+
+  /**
+   * Get the selected namespaces
+   * 
+   * @returns {string[]}
+   */
+  getNamespaces(): string[] {
+    return this.builder.getNamespaces();
+  }
+
   /**
    * Resolves a translation into the implementation-specific return type.
    *

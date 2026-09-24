@@ -124,6 +124,15 @@ export default class TranslationNamespaces<T> {
   }
 
   /**
+   * Get the selected namespaces
+   * 
+   * @returns {string[]}
+   */
+  getNamespaces(): string[] {
+    return this.selectedNamespaces;
+  }
+
+  /**
    * Resolves the selected namespaces for the given locales.
    *
    * Each selected namespace is loaded and its translations are resolved
