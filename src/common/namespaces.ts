@@ -125,7 +125,7 @@ export default class TranslationNamespaces<T> {
 
   /**
    * Get the selected namespaces
-   * 
+   *
    * @returns {string[]}
    */
   getNamespaces(): string[] {

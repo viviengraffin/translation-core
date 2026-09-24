@@ -209,11 +209,11 @@ export default class TranslationBuilder<
 
   /**
    * Get the selected namespaces
-   * 
+   *
    * @returns {string[]}
    */
   getNamespaces(): string[] {
-    if(!(this._translations instanceof TranslationNamespaces)) {
+    if (!(this._translations instanceof TranslationNamespaces)) {
       throw new Error(`Translations is not a TranslationNamespaces instance.`);
     }
 

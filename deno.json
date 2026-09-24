@@ -26,5 +26,10 @@
       "LICENSE",
       "README.md"
     ]
+  },
+  "fmt": {
+    "exclude": [
+      "README.md"
+    ]
   }
 }
