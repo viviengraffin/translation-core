@@ -1,7 +1,6 @@
 import Locale from "@/common/locale.ts";
-import { Constructor } from "@/common/types.ts";
-import { Environment } from "@/common/environment.ts";
-import { EnvironmentArgument } from "@/base.ts";
+import type { Constructor, EnvironmentArgument } from "@/common/types.ts";
+import type { Environment } from "@/common/environment.ts";
 
 /**
  * Converts an array of locale strings into {@link Locale} instances.
