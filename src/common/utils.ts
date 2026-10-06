@@ -1,4 +1,7 @@
 import Locale from "@/common/locale.ts";
+import { Constructor } from "@/common/types.ts";
+import { Environment } from "@/common/environment.ts";
+import { EnvironmentArgument } from "@/base.ts";
 
 /**
  * Converts an array of locale strings into {@link Locale} instances.
@@ -26,4 +29,16 @@ export function toLocalArray(locales: string[]): Locale[] {
  */
 export function toUniqueArray<T>(array: T[]): T[] {
   return [...new Set(array)];
+}
+
+/**
+ * Check if the argument is a constructor or a function
+ *
+ * @param arg constructor or function
+ * @returns true if is a constructor
+ */
+export function isEnvironmentConstructor(
+  arg: EnvironmentArgument,
+): arg is Constructor<Environment> {
+  return Function.prototype.toString.call(arg).startsWith("class ");
 }

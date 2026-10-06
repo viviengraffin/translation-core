@@ -1,6 +1,7 @@
 import type { TranslationBase } from "@/common/translationClass.ts";
 import type {
   Constructor,
+  EnvironmentArgument,
   LocaleFormat,
   TranslationObject,
   TranslationObjectByLocale,
@@ -13,6 +14,7 @@ import {
 } from "@/common/const.ts";
 import TranslationNamespaces from "@/common/namespaces.ts";
 import type { Environment } from "@/common/environment.ts";
+import { isEnvironmentConstructor } from "@/common/utils.ts";
 
 /**
  * Builds and configures translation class instances.
@@ -60,8 +62,10 @@ export default class TranslationBuilder<
    * @param environment - environment class responsible for loading translations.
    * @returns This builder instance.
    */
-  withEnvironment(environment: Constructor<Environment>): this {
-    this._environment = new environment();
+  withEnvironment(environment: EnvironmentArgument): this {
+    this._environment = isEnvironmentConstructor(environment)
+      ? new environment()
+      : environment();
     return this;
   }
 

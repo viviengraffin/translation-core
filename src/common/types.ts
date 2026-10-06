@@ -1,5 +1,6 @@
 import type TranslationNamespaces from "@/common/namespaces.ts";
 import type { TranslationBase } from "@/common/translationClass.ts";
+import type { Environment } from "@/common/environment.ts";
 
 /**
  * Maps each locale to a function that loads its translation object.
@@ -151,3 +152,7 @@ export type TranslationReturnType<T> = T extends
   TranslationBase<infer ReturnType> ? ReturnType : never;
 
 export type LocaleFormat = "dash" | "underscore";
+
+export type EnvironmentArgument =
+  | Constructor<Environment>
+  | (() => Environment);

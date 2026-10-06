@@ -23,6 +23,6 @@ export {
 
 export type * from "@/common/types.ts";
 
-export * from "@/common/utils.ts";
+export { toLocalArray, toUniqueArray } from "@/common/utils.ts";
 
 export { Environment as EnvironmentBase } from "@/common/environment.ts";
