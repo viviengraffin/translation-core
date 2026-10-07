@@ -32,8 +32,8 @@ export function toUniqueArray<T>(array: T[]): T[] {
 /**
  * Check if the argument is a constructor or a function
  *
- * @param arg constructor or function
- * @returns true if is a constructor
+ * @param arg constructor or function for Environment
+ * @returns true if is a constructor of Environment
  */
 export function isEnvironmentConstructor(
   arg: unknown,
