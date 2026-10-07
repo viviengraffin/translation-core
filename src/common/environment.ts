@@ -23,6 +23,11 @@ type WithTranslations<Type, T extends object = {}> = T & {
 
 export abstract class Environment {
   /**
+   * Identifier for constructor
+   */
+  public static readonly constructorOf = "Environment";
+
+  /**
    * Get the locales
    *
    * @param locales - Locales

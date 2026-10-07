@@ -1,6 +1,8 @@
 import Locale from "@/common/locale.ts";
-import type { Constructor, EnvironmentArgument } from "@/common/types.ts";
-import type { Environment } from "@/common/environment.ts";
+import type {
+  EnvironmentArgument,
+  EnvironmentConstructor,
+} from "@/common/types.ts";
 
 /**
  * Converts an array of locale strings into {@link Locale} instances.
@@ -37,7 +39,11 @@ export function toUniqueArray<T>(array: T[]): T[] {
  * @returns true if is a constructor
  */
 export function isEnvironmentConstructor(
-  arg: EnvironmentArgument,
-): arg is Constructor<Environment> {
-  return Function.prototype.toString.call(arg).startsWith("class ");
+  arg: unknown,
+): arg is EnvironmentConstructor {
+  return (
+    typeof arg === "function" &&
+    "constructorOf" in arg &&
+    arg.constructorOf === "Environment"
+  );
 }
