@@ -153,7 +153,10 @@ export type TranslationReturnType<T> = T extends
 
 export type LocaleFormat = "dash" | "underscore";
 
-export type EnvironmentConstructor = ConstructorWithIdentifier<"Environment", Environment>;
+export type EnvironmentConstructor = ConstructorWithIdentifier<
+  "Environment",
+  Environment
+>;
 
 export type EnvironmentArgument =
   | EnvironmentConstructor
