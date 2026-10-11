@@ -25,3 +25,5 @@ export const DEFAULT_SEPARATOR = ".";
  * @type {LocaleFormat}
  */
 export const DEFAULT_LOCALE_FORMAT = "dash";
+
+export const ENVIRONMENT_IDENTIFIER = Symbol("Environment");

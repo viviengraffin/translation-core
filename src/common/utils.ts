@@ -1,5 +1,6 @@
 import Locale from "@/common/locale.ts";
 import type { EnvironmentConstructor } from "@/common/types.ts";
+import { ENVIRONMENT_IDENTIFIER } from "@/common/const.ts";
 
 /**
  * Converts an array of locale strings into {@link Locale} instances.
@@ -41,6 +42,6 @@ export function isEnvironmentConstructor(
   return (
     typeof arg === "function" &&
     "constructorOf" in arg &&
-    arg.constructorOf === "Environment"
+    arg.constructorOf === ENVIRONMENT_IDENTIFIER
   );
 }

@@ -1,6 +1,7 @@
 import type TranslationNamespaces from "@/common/namespaces.ts";
 import type { TranslationBase } from "@/common/translationClass.ts";
 import type { Environment } from "@/common/environment.ts";
+import type { ENVIRONMENT_IDENTIFIER } from "@/common/const.ts";
 
 /**
  * Maps each locale to a function that loads its translation object.
@@ -154,7 +155,7 @@ export type TranslationReturnType<T> = T extends
 export type LocaleFormat = "dash" | "underscore";
 
 export type EnvironmentConstructor = ConstructorWithIdentifier<
-  "Environment",
+  typeof ENVIRONMENT_IDENTIFIER,
   Environment
 >;
 
@@ -162,7 +163,7 @@ export type EnvironmentArgument =
   | EnvironmentConstructor
   | (() => Environment);
 
-export type ConstructorWithIdentifier<T extends string, C> = {
+export type ConstructorWithIdentifier<T extends symbol, C> = {
   readonly constructorOf: T;
   new (...args: any[]): C;
 };

@@ -8,6 +8,7 @@ import type {
 import {
   DEFAULT_FALLBACK_LOCALE,
   DEFAULT_LOCALE_FORMAT,
+  ENVIRONMENT_IDENTIFIER,
 } from "@/common/const.ts";
 import TranslationNamespaces from "@/common/namespaces.ts";
 
@@ -25,7 +26,7 @@ export abstract class Environment {
   /**
    * Identifier for constructor
    */
-  public static readonly constructorOf = "Environment";
+  public static readonly constructorOf = ENVIRONMENT_IDENTIFIER;
 
   /**
    * Get the locales
