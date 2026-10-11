@@ -26,4 +26,7 @@ export const DEFAULT_SEPARATOR = ".";
  */
 export const DEFAULT_LOCALE_FORMAT = "dash";
 
+/**
+ * Identifier for Environment constructors.
+ */
 export const ENVIRONMENT_IDENTIFIER = Symbol("Environment");
