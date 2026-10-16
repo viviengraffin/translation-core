@@ -1,7 +1,6 @@
 /**
- * This entrypoint detect the environment
- * 
  * @module
+ * This entrypoint detect the environment
  */
 
 import isBrowserEnvironment from "@/environments/frontend/isBrowserEnvironment.ts";
