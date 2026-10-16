@@ -1,3 +1,9 @@
+/**
+ * This entrypoint detect the environment
+ * 
+ * @module
+ */
+
 import isBrowserEnvironment from "@/environments/frontend/isBrowserEnvironment.ts";
 import type { Environment as EnvironmentBase } from "@/common/environment.ts";
 

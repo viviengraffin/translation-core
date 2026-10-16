@@ -6,8 +6,6 @@ export { default as getIntlFacade } from "@/common/intlFacades.ts";
 
 export { default as Locale } from "@/common/locale.ts";
 
-export { memoize } from "@/common/memoize.ts";
-
 export {
   default as TranslationNamespaces,
   type TranslationNamespacesObject,
@@ -19,6 +17,7 @@ export {
   DEFAULT_FALLBACK_LOCALE,
   DEFAULT_LOCALE_FORMAT,
   DEFAULT_SEPARATOR,
+  type ENVIRONMENT_IDENTIFIER,
 } from "@/common/const.ts";
 
 export type * from "@/common/types.ts";
