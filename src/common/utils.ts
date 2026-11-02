@@ -1,6 +1,13 @@
 import Locale from "@/common/locale.ts";
-import type { EnvironmentConstructor } from "@/common/types.ts";
+import type {
+  Constructor,
+  EnvironmentConstructor,
+  TranslationReturnType,
+} from "@/common/types.ts";
 import { ENVIRONMENT_IDENTIFIER } from "@/common/const.ts";
+import type { BuildTranslaterOptions } from "@/base.ts";
+import type { TranslationBase } from "@/common/translationClass.ts";
+import TranslationBuilder from "@/common/builder.ts";
 
 /**
  * Converts an array of locale strings into {@link Locale} instances.
@@ -44,4 +51,41 @@ export function isEnvironmentConstructor(
     "constructorOf" in arg &&
     arg.constructorOf === ENVIRONMENT_IDENTIFIER
   );
+}
+
+/**
+ * Create a Translation builder function.
+ *
+ * @param tc Translation class
+ * @returns Asynchronously a function builder
+ */
+export function createBuilderFunction<T extends TranslationBase<any>>(
+  tc: Constructor<T>,
+): (options: BuildTranslaterOptions<TranslationReturnType<T>>) => Promise<T> {
+  return async (
+    { translations, locale, fallbackLocale, separator, localeFormat },
+  ) => {
+    let builder = new TranslationBuilder(tc)
+      .withTranslations(translations);
+
+    if (locale) {
+      builder = builder.withLocale(
+        typeof locale === "string" ? locale : await locale(),
+      );
+    }
+
+    if (fallbackLocale) {
+      builder = builder.withFallbackLocale(fallbackLocale);
+    }
+
+    if (separator) {
+      builder = builder.withSeparator(separator);
+    }
+
+    if (localeFormat) {
+      builder = builder.withLocaleFormat(localeFormat);
+    }
+
+    return await builder.build();
+  };
 }

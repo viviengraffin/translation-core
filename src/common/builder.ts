@@ -47,6 +47,7 @@ export default class TranslationBuilder<
   protected _fallbackLocale: string = DEFAULT_FALLBACK_LOCALE;
   protected _separator: string = DEFAULT_SEPARATOR;
   protected _localeFormat: LocaleFormat = DEFAULT_LOCALE_FORMAT;
+  protected _onLocaleChange: ((locale?: string)=>void) | ((locale?: string)=>Promise<void>) = ()=>{}
 
   /**
    * Creates a translation builder for the given translation class.
@@ -211,6 +212,17 @@ export default class TranslationBuilder<
     return this;
   }
 
+
+  /**
+   * Define a callback for locale change event.
+   * 
+   * @param callback Callback to execute
+   */
+  withOnLocaleChange(callback: ((locale?: string)=>void) | ((locale?: string)=>Promise<void>)): this {
+    this._onLocaleChange=callback;
+    return this;
+  }
+
   /**
    * Get the selected namespaces
    *
@@ -254,6 +266,13 @@ export default class TranslationBuilder<
       translations[0],
       this._separator,
     );
+  }
+
+  /**
+   * Emit 
+   */
+  async callOnLocaleChange() {
+    await this._onLocaleChange(this._locale);
   }
 
   /**

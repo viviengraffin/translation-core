@@ -167,3 +167,11 @@ export type ConstructorWithIdentifier<T extends symbol, C> = {
   readonly constructorOf: T;
   new (...args: any[]): C;
 };
+
+export type BuildTranslaterOptions<T> = {
+  translations: TranslationContainer<T>;
+  locale?: (() => string) | (() => Promise<string>) | string;
+  fallbackLocale?: string;
+  separator?: string;
+  localeFormat?: LocaleFormat;
+};

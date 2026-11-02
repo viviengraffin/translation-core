@@ -151,6 +151,8 @@ export abstract class TranslationBase<ReturnType> {
     this.locales = locales;
     this.localesNames = names;
 
+    await this.builder.callOnLocaleChange();
+
     return this;
   }
 

@@ -9,12 +9,14 @@
   "exports": {
     ".": "./src/main.ts",
     "./backend": "./src/environments/backend/main.ts",
-    "./frontend": "./src/environments/frontend/main.ts"
+    "./frontend": "./src/environments/frontend/main.ts",
+    "./string": "./src/string/main.ts"
   },
   "lint": {
     "rules": {
       "exclude": [
-        "no-explicit-any"
+        "no-explicit-any",
+        "ban-ts-comment"
       ]
     }
   },
