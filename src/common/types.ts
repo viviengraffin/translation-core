@@ -154,14 +154,15 @@ export type TranslationReturnType<T> = T extends
 
 export type LocaleFormat = "dash" | "underscore";
 
-export type EnvironmentConstructor = ConstructorWithIdentifier<
-  typeof ENVIRONMENT_IDENTIFIER,
-  Environment
->;
+export type EnvironmentConstructor<E extends Environment = Environment> =
+  ConstructorWithIdentifier<
+    typeof ENVIRONMENT_IDENTIFIER,
+    E
+  >;
 
-export type EnvironmentArgument =
-  | EnvironmentConstructor
-  | (() => Environment);
+export type EnvironmentArgument<E extends Environment = Environment> =
+  | EnvironmentConstructor<E>
+  | (() => E);
 
 export type ConstructorWithIdentifier<T extends symbol, C> = {
   readonly constructorOf: T;
@@ -174,4 +175,10 @@ export type BuildTranslaterOptions<T> = {
   fallbackLocale?: string;
   separator?: string;
   localeFormat?: LocaleFormat;
+  environment: EnvironmentArgument;
+  onLocaleChange?: ((locale?: string)=>void) | ((locale?: string)=>Promise<void>);
 };
+
+export type BuildTranslater<T extends TranslationBase<any>> = (
+  options: BuildTranslaterOptions<TranslationReturnType<T>>,
+) => Promise<T>;

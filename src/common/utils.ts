@@ -1,11 +1,10 @@
 import Locale from "@/common/locale.ts";
 import type {
+  BuildTranslater,
   Constructor,
   EnvironmentConstructor,
-  TranslationReturnType,
 } from "@/common/types.ts";
 import { ENVIRONMENT_IDENTIFIER } from "@/common/const.ts";
-import type { BuildTranslaterOptions } from "@/base.ts";
 import type { TranslationBase } from "@/common/translationClass.ts";
 import TranslationBuilder from "@/common/builder.ts";
 
@@ -61,12 +60,21 @@ export function isEnvironmentConstructor(
  */
 export function createBuilderFunction<T extends TranslationBase<any>>(
   tc: Constructor<T>,
-): (options: BuildTranslaterOptions<TranslationReturnType<T>>) => Promise<T> {
+): BuildTranslater<T> {
   return async (
-    { translations, locale, fallbackLocale, separator, localeFormat },
+    {
+      translations,
+      locale,
+      fallbackLocale,
+      separator,
+      localeFormat,
+      environment,
+      onLocaleChange,
+    },
   ) => {
     let builder = new TranslationBuilder(tc)
-      .withTranslations(translations);
+      .withTranslations(translations)
+      .withEnvironment(environment);
 
     if (locale) {
       builder = builder.withLocale(
@@ -84,6 +92,10 @@ export function createBuilderFunction<T extends TranslationBase<any>>(
 
     if (localeFormat) {
       builder = builder.withLocaleFormat(localeFormat);
+    }
+
+    if (onLocaleChange) {
+      builder = builder.withOnLocaleChange(onLocaleChange);
     }
 
     return await builder.build();

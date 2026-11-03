@@ -1,2 +1,2 @@
 export { TranslationString } from "@/string/class.ts";
-export { buildTranslater } from "@/string/functions.ts";
+export { buildTranslater, secure } from "@/string/functions.ts";
