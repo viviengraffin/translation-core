@@ -5,13 +5,13 @@ import { assert } from "node:console";
 
 const { test } = Deno;
 
-const transater=await buildTranslater({
-    translations,
-    environment: Environment,
-    locale: "fr",
-    fallbackLocale: "en"
+const transater = await buildTranslater({
+  translations,
+  environment: Environment,
+  locale: "fr",
+  fallbackLocale: "en",
 });
 
-test("Simple test", ()=>{
-    assert(transater.translate("test.language"), "Français");
+test("Simple test", () => {
+  assert(transater.translate("test.language"), "Français");
 });

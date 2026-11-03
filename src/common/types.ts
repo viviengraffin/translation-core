@@ -176,7 +176,9 @@ export type BuildTranslaterOptions<T> = {
   separator?: string;
   localeFormat?: LocaleFormat;
   environment: EnvironmentArgument;
-  onLocaleChange?: ((locale?: string)=>void) | ((locale?: string)=>Promise<void>);
+  onLocaleChange?:
+    | ((locale?: string) => void)
+    | ((locale?: string) => Promise<void>);
 };
 
 export type BuildTranslater<T extends TranslationBase<any>> = (
